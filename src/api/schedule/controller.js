@@ -1,5 +1,3 @@
-import hgBrasil from "./tool/hgBrazilWeather";
-
 const createJsonFones = (array) =>{
     let fone = [];
     array.forEach((item,idx) => {
@@ -57,8 +55,13 @@ const _saveSchedule = async (req, res, next, model) => {
     try {
         if (schedule.name && schedule.city){
             const id = await model.mSaveSchedule(schedule);
-            schedule.id = id;
-            return res.send(JSON.stringify({success: true, data: schedule}));
+            if(id){
+                schedule.id = id;
+                return res.send(JSON.stringify({success: true, data: schedule}));
+            } else {
+                res.status(500);
+                return res.send(JSON.stringify({success: false, error: 'erro não foi possivel salvar'}));
+            }
         }else{
             res.status(400);
             return res.send(JSON.stringify({success: false, error: 'insira nome e cidade'}));
@@ -99,32 +102,36 @@ const _removeSchedule = async (req, res, next, model) => {
 
 const _searchSchedule = async (req, res, next, model, hgBrasil) => {
     const item = req.body;
-    // try {
+    try {
         let dataRes = [];
         const data = await model.mSearchSchedules(item);
         let id = 0;
         let cont = 0;
-        for (const item of data) {
-            if(id != item.id){
-                const dataTemp = await hgBrasil.getTempTip(item.city);
-                let obj = { name:item.name, email: item.email, dataTemp: dataTemp,
-                    addressLine: item.address_line, addressNumber: item.address_number,
-                    neighborhood: item.neighborhood, city: item.city, state: item.state, code: item.code,
-                    fones: [{id: data[cont].fone_id, number: data[cont].number }]};
-                dataRes.push(obj);
-            }else{
-                dataRes[cont-1].fones.push( {id: data[cont].fone_id, number: data[cont].number })
+        if (data){
+            for (const item of data) {
+                if(id != item.id){
+                    const dataTemp = await hgBrasil.getTempTip(item.city);
+                    let obj = { name:item.name, email: item.email, dataTemp: dataTemp,
+                        addressLine: item.address_line, addressNumber: item.address_number,
+                        neighborhood: item.neighborhood, city: item.city, state: item.state, code: item.code,
+                        fones: [{id: data[cont].fone_id, number: data[cont].number }]};
+                    dataRes.push(obj);
+                }else{
+                    dataRes[cont-1].fones.push( {id: data[cont].fone_id, number: data[cont].number })
+                }
+                id = item.id;
+                cont++;
             }
-            id = item.id;
-            cont++;
-        };
+        } else {
+            res.status(400);
+            return res.send(JSON.stringify({success: false, error: 'Busca não encontro dados'}));
 
-
+        }
         return res.send(JSON.stringify({success: true, data: dataRes}));
-    // } catch (e) {
-    //     res.status(400);
-    //     return res.send(JSON.stringify({success: false, error: e}));
-    // }
+    } catch (e) {
+        res.status(400);
+        return res.send(JSON.stringify({success: false, error: e}));
+    }
 };
 
 const getController = (model, hgBrasil) => ({

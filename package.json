@@ -1,0 +1,25 @@
+{
+  "name": "agenda-teste",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "go": "npm-run-all -p go:*",
+    "go:server": "nodemon app.js"
+  },
+  "author": "tiago honorio mados da silva",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "knex": "^0.21.5",
+    "mysql": "github:mysqljs/mysql",
+    "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4",
+    "npm-run-all": "^4.1.5",
+    "sucrase": "^3.10.1"
+  }
+}

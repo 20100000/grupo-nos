@@ -11,7 +11,7 @@ Fetch para Curl
 <h3>Requisitos para rodar projeto</h3>
 Docker é extremamente necessário porque KEY do HgBrasil Weather
  esta declarada como variável de ambiente no dockerfile <strong>ENV KEY_WEATHER</strong>.<br/>
- Instale nodejs e npm para instalar dependencias e rodar os testes.
+ Instale nodejs e npm para instalar dependencias.
 
 <h3>Passo a passo para iniciar projeto 
 <h4>1° Clone o projeto</h4> 

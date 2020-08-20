@@ -1,4 +1,4 @@
-import database from "../../../config/database";
+import database from "../../../lib/database";
 import queries from "./tool/queries";
 
 const _getSchedules = async () => {

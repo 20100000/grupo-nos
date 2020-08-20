@@ -1,4 +1,4 @@
-import config from '../../../../config/config';
+import config from '../../../../lib/config';
 import fetch from 'node-fetch';
 
 const _getTempTip = async (city) => {

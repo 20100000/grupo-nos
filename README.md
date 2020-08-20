@@ -26,7 +26,7 @@ crie node_module com as dependências.<br/>
 npm install
 </pre>
 <h4>3° Iniciar projeto</h4>
-start back-end com docker-compose <br/>
+start back-end com docker-compose, a base de dados sera importada para detro do container porta 3306 tem que estar livre<br/>
 <pre>
 docker-compose up<br/>
 </pre>
